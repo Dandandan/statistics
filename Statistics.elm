@@ -47,9 +47,9 @@ The median is a robust measure of central location, and is less affected by the 
 median : [Float] -> Float
 median xs =
     let l = length xs
-        x = xs |> drop (l `div` 2 - 1)
-    in if l `mod` 2 == 0 then xs |> drop (l `div` 2 - 1) |> take 2 |> mean
-                         else xs |> drop (l `div` 2) |> head
+        x = sort xs
+    in if l `mod` 2 == 0 then x |> drop (l `div` 2 - 1) |> take 2 |> mean
+                         else x |> drop (l `div` 2) |> head
 
 {-| Return the most common data point from discrete or nominal data. The mode (when it exists) is the most typical value, and is a robust measure of central location.
 
