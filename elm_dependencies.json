@@ -1,7 +1,7 @@
 { "version": "0.1"
-, "summary": "concise, helpful summary of your project"
+, "summary": "Mathematical statistics functions"
 , "description":
-      "full description of this project, describe your use case"
+      "This module provides functions for calculating mathematical statistics of numeric data."
 , "license": "Apache License, Version 2"
 , "repository": "https://github.com/Dandandan/statistics.git"
 , "exposed-modules": ["Statistics"]
