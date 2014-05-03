@@ -1,10 +1,10 @@
-{ "version": "0.1"
+{ "version": "0.1.1"
 , "summary": "Mathematical statistics functions"
 , "description":
       "This module provides functions for calculating mathematical statistics of numeric data."
 , "license": "Apache License, Version 2"
 , "repository": "https://github.com/Dandandan/statistics.git"
 , "exposed-modules": ["Statistics"]
-, "elm-version": "0.12"
+, "elm-version": "0.12.1.3"
 , "dependencies": {}
 }

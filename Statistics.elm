@@ -15,10 +15,6 @@
   limitations under the License.
 -}
 module Statistics where
-
-import Dict
-import Maybe
-
 {-| This module provides functions for calculating mathematical statistics of numeric data.
 
 # Averages and measures of central location
@@ -26,6 +22,8 @@ These functions calculate an average or typical value from a population or sampl
 @docs mean, median, mode
 -}
 
+import Dict
+import Maybe
 
 {-| Return the sample arithmetic mean of data, a sequence or iterator of real-valued numbers.
 
