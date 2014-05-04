@@ -1,3 +1,3 @@
 import Statistics
 
-main = asText <| Statistics.median [3, 1, 5, 6]
+main = asText <| Statistics.medianLow [1, 3, 5, 7]

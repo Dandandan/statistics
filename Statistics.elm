@@ -19,13 +19,13 @@ module Statistics where
 
 # Averages and measures of central location
 These functions calculate an average or typical value from a population or sample.
-@docs mean, median, mode
+@docs mean, median, medianLow, medianHigh, mode
 -}
 
 import Dict
 import Maybe
 
-{-| Return the sample arithmetic mean of data, a sequence or iterator of real-valued numbers.
+{-| Return the sample arithmetic mean of data, a list of real-valued numbers.
 
 The arithmetic mean is the sum of the data divided by the number of data points. It is commonly called “the average”, although it is only one of many different mathematical averages. It is a measure of the central location of the data.
 
@@ -51,9 +51,37 @@ median xs =
     in if l `mod` 2 == 0 then x |> drop (l `div` 2 - 1) |> take 2 |> mean
                          else x |> drop (l `div` 2) |> head
 
+{-| Return the low median of numeric data.
+
+The low median is always a member of the data set. When the number of data points is odd, the middle value is returned. When it is even, the smaller of the two middle values is returned.
+
+    medianLow [1, 3, 5]    == 3
+    medianLow [1, 3, 5, 7] == 3
+-}
+medianLow : [Float] -> Float
+medianLow xs =
+    let l = length xs
+        x = sort xs
+    in if l `mod` 2 == 0 then x |> drop (l `div` 2 - 1) |> head
+                         else x |> drop (l `div` 2) |> head
+
+
+{-| Return the high median of data.
+
+The high median is always a member of the data set. When the number of data points is odd, the middle value is returned. When it is even, the larger of the two middle values is returned.
+
+    medianHigh [1, 3, 5]    == 3
+    medianHigh [1, 3, 5, 7] == 5
+-}
+medianHigh : [Float] -> Float
+medianHigh xs =
+    let l = length xs
+        x = sort xs
+    in x |> drop (l `div` 2) |> head
+
 {-| Return the most common data point from discrete or nominal data. The mode (when it exists) is the most typical value, and is a robust measure of central location.
 
-mode assumes discrete data, and returns a single value. This is the standard treatment of the mode as commonly taught in schools:
+`mode` assumes discrete data, and returns a single value. This is the standard treatment of the mode as commonly taught in schools:
 
     mode [1, 1, 2, 3, 3, 3, 3, 4]        == 3
     mode ["red", "blue", "green", "red"] == "red"
