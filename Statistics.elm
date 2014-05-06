@@ -20,12 +20,16 @@ module Statistics where
 # Averages and measures of central location
 These functions calculate an average or typical value from a population or sample.
 @docs mean, median, medianLow, medianHigh, mode
+
+#Measures of spread
+These functions calculate a measure of how much the population or sample tends to deviate from the typical or average values.
+@docs variance, populationVariance, standardDeviation, populationStandardDeviation
 -}
 
 import Dict
 import Maybe
 
-{-| Return the sample arithmetic mean of data, a list of real-valued numbers.
+{-| Return the sample arithmetic mean of a list of real-valued numbers.
 
 The arithmetic mean is the sum of the data divided by the number of data points. It is commonly called “the average”, although it is only one of many different mathematical averages. It is a measure of the central location of the data.
 
@@ -92,3 +96,48 @@ mode xs =
         counts      = foldr count Dict.empty xs
     in Dict.toList counts |> sortWith (\x y -> (flip compare) (snd x) (snd y)) |> head |> fst
 
+{-| Return the sample variance of data, an iterable of at least two real-valued numbers. Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of data. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+
+Use this function when your data is a sample from a population. To calculate the variance from the entire population, see `populationVariance`.
+
+    variance [2.75, 1.75, 1.25, 0.25, 0.5, 1.25, 3.5] == 1.3720238095238095
+
+-}
+variance : [Float] -> Float
+variance xs =
+    let n  = length xs
+        c  = mean xs
+        ss = map (\x -> (x - c) ^ 2) xs |> sum
+    in 
+        ss / (toFloat n - 1)
+
+
+{-| Return the population variance of a list of real-valued numbers. Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of data. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+
+Use this function to calculate the variance from the entire population. To estimate the variance from a sample, `variance` is usually a better choice.
+
+     populationVariance [0.0, 0.25, 0.25, 1.25, 1.5, 1.75, 2.75, 3.25] == 1.25
+-}
+populationVariance : [Float] -> Float
+populationVariance xs =
+    let n  = length xs
+        c  = mean xs
+        ss = map (\x -> (x - c) ^ 2) xs |> sum
+    in 
+        ss / toFloat n
+
+{-| Return the sample standard deviation (the square root of the sample variance).
+
+    standardDeviation [1.5, 2.5, 2.5, 2.75, 3.25, 4.75] == 1.0810874155219827
+-}
+standardDeviation : [Float] -> Float
+standardDeviation xs =
+    variance xs |> sqrt
+
+{-| Return the population standard deviation (the square root of the population variance).
+
+    populationStandardDeviation [1.5, 2.5, 2.5, 2.75, 3.25, 4.75] == 0.986893273527251
+-}
+populationStandardDeviation : [Float] -> Float
+populationStandardDeviation xs =
+    populationVariance xs |> sqrt
